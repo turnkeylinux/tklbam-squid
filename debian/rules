@@ -4,7 +4,8 @@
 #
 
 # Version.
-package = squid
+package = tklbam-squid
+rootdir = /usr/lib/tklbam/deps
 
 # Include dpatch stuff.
 include /usr/share/dpatch/dpatch.make
@@ -53,24 +54,22 @@ ifeq ($(DEB_HOST_ARCH_OS),)
 endif
 
 tmp	     = debian/tmp
-bindir       = /usr/sbin
-libexecdir   = /usr/lib/squid
-sysconfdir   = /etc/squid
-logdir       = /var/log/squid
-docdir       = /usr/share/doc/squid
-datadir      = /usr/share/squid
-mibdir       = /usr/share/snmp/mibs
+
+bindir       = $(rootdir)/usr/sbin
+libexecdir   = $(rootdir)/usr/lib/squid
+sysconfdir   = $(rootdir)/etc/squid
+logdir       = $(rootdir)/var/log/squid
+datadir      = $(rootdir)/usr/share/squid
 
 DEFAULTS     =	logdir=$(logdir) \
 		DEFAULT_CACHE_LOG=$(logdir)/cache.log \
 		DEFAULT_ACCESS_LOG=$(logdir)/access.log \
 		DEFAULT_STORE_LOG=$(logdir)/store.log \
-		DEFAULT_PID_FILE=/var/run/squid.pid \
-		DEFAULT_SWAP_DIR=/var/spool/squid \
+		DEFAULT_PID_FILE=/var/run/$(package).pid \
+		DEFAULT_SWAP_DIR=/var/spool/$(package) \
 		DEFAULT_ICON_DIR=$(datadir)/icons \
 		DEFAULT_ERROR_DIR=$(datadir)/errors/en \
 		DEFAULT_MIME_TABLE=$(datadir)/mime.conf \
-		DEFAULT_MIB_PATH=$(mibdir)/SQUID.txt
 
 # The HURD doesn't have pthreads yet.
 ifeq ($(DEB_HOST_ARCH_OS), gnu)
@@ -112,21 +111,9 @@ build: patch config.status
 	$(checkdir)
 	$(MAKE) $(DEFAULTS) all
 	# Authentication modules
-	cd helpers/basic_auth/NCSA && make
-	cd helpers/basic_auth/SMB && make SAMBAPREFIX=/usr INSTALLBIN=/usr/lib/squid
-	cd helpers/basic_auth/PAM && make
-	cd helpers/basic_auth/LDAP && make
-	cd helpers/basic_auth/YP && make
-	cd helpers/basic_auth/MSNT && make
-	cd helpers/basic_auth/getpwnam && make
-	cd helpers/digest_auth/password && make
-	cd helpers/digest_auth/ldap && make
 	cd helpers/external_acl/ip_user && make
-	cd helpers/external_acl/ldap_group && make
 	cd helpers/external_acl/session && make
 	cd helpers/external_acl/unix_group && make
-	cd helpers/external_acl/wbinfo_group && make
-	cd helpers/ntlm_auth/SMB && make
 	touch build
 
 # Configure the package.
@@ -138,28 +125,25 @@ config.status:
 
 	$(opt_ac_cv_func_setresuid) \
 	./configure \
-	--prefix=/usr \
-	--exec_prefix=/usr \
-	--bindir=/usr/sbin --sbindir=/usr/sbin \
-	--libexecdir=/usr/lib/squid \
+    --enable-default-err-language=English \
+	--prefix=$(rootdir)/usr \
+	--exec_prefix=$(rootdir)/usr \
+	--bindir=$(rootdir)/usr/sbin --sbindir=$(rootdir)/usr/sbin \
+	--libexecdir=$(rootdir)/usr/lib/squid \
 	--sysconfdir=$(sysconfdir) \
-	--localstatedir=/var/spool/squid \
-	--datadir=/usr/share/squid \
+	--localstatedir=/var/spool/$(package) \
+	--datadir=$(rootdir)/usr/share/squid \
 	$(with_pthreads) \
 	$(with_netfilter) \
 	$(with_arp_acl) \
 	$(with_epoll) \
 	--enable-removal-policies=lru,heap \
-	--enable-snmp \
 	--enable-delay-pools \
-	--enable-htcp \
 	--enable-cache-digests \
 	--enable-underscores \
 	--enable-referer-log \
 	--enable-useragent-log \
-	--enable-auth="basic,digest,ntlm,negotiate" \
 	--enable-negotiate-auth-helpers=squid_kerb_auth \
-	--enable-carp \
 	--enable-follow-x-forwarded-for \
 	--with-large-files \
 	--with-maxfd=65536 \
@@ -170,63 +154,21 @@ binary-indep:	build checkroot
 	-rm -rf $(tmp) debian/files
 	$(checkdir)
 	#
-	#	Build squid-common package.
+	#	Build $(package)-common package.
 	#
 	$(INSTALL_DIR) $(tmp)/DEBIAN
-	$(INSTALL_DIR) $(tmp)/usr/share/doc/squid-common
-	$(INSTALL_FILE) ChangeLog $(tmp)/usr/share/doc/squid-common/changelog
-	$(INSTALL_FILE) debian/changelog \
-		$(tmp)/usr/share/doc/squid-common/changelog.Debian
-	gzip -9f $(tmp)/usr/share/doc/squid-common/*
-	$(INSTALL_FILE) debian/copyright $(tmp)/usr/share/doc/squid-common
-	$(INSTALL_DIR) $(tmp)/usr/share/$(package)
-	#$(INSTALL_DIR) $(tmp)/usr/share/squid/errors
-	ln -sf ../squid-langpack $(tmp)/usr/share/squid/errors
-	$(INSTALL_DIR) $(tmp)/usr/share/squid/icons
-	$(INSTALL_DIR) $(tmp)/usr/share/snmp/mibs
-	$(INSTALL_FILE) src/mib.txt ./$(tmp)$(mibdir)/SQUID.txt
+	$(INSTALL_DIR) $(tmp)/$(datadir)
+	$(INSTALL_DIR) $(tmp)/$(datadir)/icons
+	$(INSTALL_DIR) $(tmp)/$(datadir)/errors
+
 	$(INSTALL_FILE) src/mime.conf.default ./$(tmp)$(datadir)/mime.conf
+	cp -a errors/English $(tmp)/$(datadir)/errors/en
+
 	#
-	#cp -R errors/* ./$(tmp)$(datadir)/errors
-	#rm -f ./$(tmp)$(datadir)/errors/Makefile*
-	#rm -f ./$(tmp)$(datadir)/errors/list
-	#chmod 755 ./$(tmp)$(datadir)/errors/*
-	#chmod 644 ./$(tmp)$(datadir)/errors/*/*
-	#chown -R root:root ./$(tmp)$(datadir)/errors
 	$(INSTALL_FILE) icons/*.gif ./$(tmp)$(datadir)/icons
+
 	$(INSTALL_DIR) $(tmp)/usr/share/doc/$(package)
-	$(INSTALL_DIR) $(tmp)/usr/share/doc/$(package)/examples
-	$(INSTALL_FILE) debian/doc/README.auth_modules $(tmp)$(docdir)
-	$(INSTALL_FILE) helpers/basic_auth/SMB/README \
-		$(tmp)$(docdir)/README.auth_module.smb_auth
-	umask 022; head -19 helpers/basic_auth/NCSA/ncsa_auth.c > \
-		$(tmp)$(docdir)/README.auth_module.ncsa_auth
-	umask 022; head -56 helpers/basic_auth/PAM/pam_auth.c > \
-		$(tmp)$(docdir)/README.auth_module.pam_auth
-	$(INSTALL_FILE) debian/README.ldap_auth \
-		$(tmp)$(docdir)/README.auth_module.ldap_auth
-	$(INSTALL_FILE) helpers/basic_auth/MSNT/README.html \
-		$(tmp)$(docdir)/README.auth_module.msnt_auth.html
-	umask 022; head -21 helpers/basic_auth/getpwnam/getpwnam_auth.c > \
-		$(tmp)$(docdir)/README.auth_module.getpwnam_auth
-	umask 022; head -26 helpers/digest_auth/password/digest_pw_auth.c > \
-		$(tmp)$(docdir)/README.auth_module.digest_pw_auth
-	$(INSTALL_FILE) helpers/external_acl/ip_user/README \
-		$(tmp)$(docdir)/README.auth_module.ip_user
-	$(INSTALL_FILE) helpers/external_acl/ip_user/example.conf \
-		$(tmp)$(docdir)/examples/ip_user-example.conf
-	$(INSTALL_FILE) helpers/external_acl/unix_group/README \
-		$(tmp)$(docdir)/README.auth_module.unix_group
-	$(INSTALL_FILE) helpers/negotiate_auth/squid_kerb_auth/readme.txt \
-		$(tmp)$(docdir)/README.squid_kerb_auth
-	$(INSTALL_FILE) CONTRIBUTORS QUICKSTART RELEASENOTES.html \
-		README debian/doc/README.transparent-proxy \
-		debian/doc/README.morefds doc/debug-sections.txt \
-		$(tmp)/usr/share/doc/$(package)
-	$(INSTALL_FILE) debian/doc/CompleteFaq $(tmp)/usr/share/doc/$(package)
-	gzip -9f `find debian/tmp/usr/share/doc/squid/* | grep -v examples`
-	$(INSTALL_SCRIPT) debian/postinst.squid-common $(tmp)/DEBIAN/postinst
-	dpkg-gencontrol -isp -psquid-common
+	dpkg-gencontrol -isp -p$(package)-common
 	dpkg --build $(tmp) ..
 	rm -f debian/substvars
 	rm -rf $(tmp)
@@ -237,93 +179,31 @@ binary-arch:	build checkroot
 	#	Build squid package.
 	#
 	$(INSTALL_DIR) $(tmp)/DEBIAN
-	$(INSTALL_DIR) $(tmp)/etc/squid
-	$(INSTALL_DIR) $(tmp)/etc/logrotate.d
-	$(INSTALL_DIR) $(tmp)/etc/init.d
-	$(INSTALL_DIR) $(tmp)/etc/resolvconf/update-libc.d
-	$(INSTALL_DIR) $(tmp)/usr/sbin
-	$(INSTALL_DIR) $(tmp)/usr/share/doc/$(package)
-	$(INSTALL_DIR) $(tmp)/usr/share/doc/$(package)/examples
-	$(INSTALL_DIR) $(tmp)/usr/lib/squid
-	$(INSTALL_DIR) $(tmp)/var/{log,spool}
-	install -m 750 -o proxy -g proxy -d $(tmp)/var/log/squid
-	install -m 750 -o proxy -g proxy -d $(tmp)/var/spool/squid
-	$(INSTALL_DIR) $(tmp)/usr/share/man/man8
+	$(INSTALL_DIR) $(tmp)$(rootdir)/usr/sbin
+	$(INSTALL_DIR) $(tmp)$(rootdir)/usr/lib/squid
+	install -m 750 -o proxy -g proxy -d $(tmp)/var/spool/$(package)
+
 	#
-	$(INSTALL_PROGRAM) src/squid $(tmp)/usr/sbin
-	$(INSTALL_PROGRAM) src/unlinkd src/fs/diskd-daemon src/logfile-daemon $(tmp)/usr/lib/squid
-	$(INSTALL_FILE) debian/logrotate $(tmp)/etc/logrotate.d/squid
-	$(INSTALL_SCRIPT) debian/squid.resolvconf $(tmp)/etc/resolvconf/update-libc.d/squid
-	$(INSTALL_PROGRAM) helpers/basic_auth/SMB/smb_auth $(tmp)$(libexecdir)
-	$(INSTALL_SCRIPT) helpers/basic_auth/SMB/smb_auth.sh $(tmp)$(libexecdir)
-	$(INSTALL_PROGRAM) helpers/basic_auth/NCSA/ncsa_auth $(tmp)$(libexecdir)
-	$(INSTALL_PROGRAM) -m 2754 -o proxy -g shadow \
-		helpers/basic_auth/PAM/pam_auth $(tmp)$(libexecdir)
-	$(INSTALL_PROGRAM) helpers/basic_auth/LDAP/squid_ldap_auth \
-		$(tmp)$(libexecdir)/ldap_auth
-	$(INSTALL_PROGRAM) helpers/basic_auth/YP/yp_auth \
-		$(tmp)$(libexecdir)/yp_auth
-	$(INSTALL_PROGRAM) helpers/basic_auth/MSNT/msnt_auth \
-		$(tmp)$(libexecdir)/msnt_auth
-	$(INSTALL_PROGRAM) -m 2754 -o proxy -g shadow \
-		helpers/basic_auth/getpwnam/getpwname_auth \
-		$(tmp)$(libexecdir)/getpwnam_auth
-	$(INSTALL_PROGRAM) helpers/digest_auth/password/digest_pw_auth \
-		$(tmp)$(libexecdir)/digest_pw_auth
+	$(INSTALL_PROGRAM) src/squid $(tmp)$(rootdir)/usr/sbin
+	$(INSTALL_PROGRAM) src/unlinkd src/fs/diskd-daemon src/logfile-daemon $(tmp)$(rootdir)/usr/lib/squid
 	$(INSTALL_PROGRAM) helpers/external_acl/ip_user/ip_user_check \
 		$(tmp)$(libexecdir)/ip_user_check
-	$(INSTALL_PROGRAM) helpers/external_acl/ldap_group/squid_ldap_group \
-		$(tmp)$(libexecdir)/squid_ldap_group
-	$(INSTALL_FILE) helpers/external_acl/ldap_group/squid_ldap_group.8 \
-		$(tmp)/usr/share/man/man8/squid_ldap_group.8
 	$(INSTALL_PROGRAM) helpers/external_acl/session/squid_session \
 		$(tmp)$(libexecdir)/squid_session
-	$(INSTALL_FILE) helpers/external_acl/session/squid_session.8 \
-		$(tmp)/usr/share/man/man8/squid_session.8
 	$(INSTALL_PROGRAM) helpers/external_acl/unix_group/squid_unix_group \
 		$(tmp)$(libexecdir)/squid_unix_group
-	$(INSTALL_FILE) helpers/external_acl/unix_group/squid_unix_group.8 \
-		$(tmp)/usr/share/man/man8/squid_unix_group.8
-	$(INSTALL_SCRIPT) helpers/external_acl/wbinfo_group/wbinfo_group.pl \
-		$(tmp)$(libexecdir)/wbinfo_group.pl
-	$(INSTALL_PROGRAM) helpers/ntlm_auth/SMB/ntlm_auth \
-		$(tmp)$(libexecdir)/ntlm_auth
-	$(INSTALL_PROGRAM) helpers/negotiate_auth/squid_kerb_auth/squid_kerb_auth \
-		$(tmp)$(libexecdir)/squid_kerb_auth
-	# the examples. Most have been removed from upstream :/
-	$(INSTALL_FILE) src/squid.conf.default \
-	        $(tmp)/usr/share/doc/$(package)/examples/squid.conf
-	$(INSTALL_FILE) debian/default.squid \
-		$(tmp)/usr/share/doc/$(package)/examples
-	
 	#
+	$(INSTALL_DIR) $(tmp)/usr/share/doc/$(package)
 	$(INSTALL_FILE) ChangeLog $(tmp)/usr/share/doc/$(package)/changelog
 	$(INSTALL_FILE) debian/changelog \
 		$(tmp)/usr/share/doc/$(package)/changelog.Debian
-	$(INSTALL_FILE) debian/README.Debian \
-		$(tmp)/usr/share/doc/$(package)/README.Debian
-	$(INSTALL_FILE) debian/NEWS.Debian \
-		$(tmp)/usr/share/doc/$(package)/NEWS.Debian
-	gzip -9f `find debian/tmp/usr/share/doc/squid/* | grep -v examples`
 	$(INSTALL_FILE) debian/copyright $(tmp)/usr/share/doc/$(package)
-	$(INSTALL_FILE) doc/squid.8 $(tmp)/usr/share/man/man8
-	gzip -9f $(tmp)/usr/share/man/man?/*
-	$(INSTALL_SCRIPT) debian/squid.rc $(tmp)/etc/init.d/squid
-	#
 	$(INSTALL_SCRIPT) debian/preinst $(tmp)/DEBIAN/preinst
-	$(INSTALL_SCRIPT) debian/postinst $(tmp)/DEBIAN/postinst
-	$(INSTALL_SCRIPT) debian/prerm $(tmp)/DEBIAN/prerm
-	$(INSTALL_SCRIPT) debian/postrm $(tmp)/DEBIAN/postrm
-	$(INSTALL_FILE) debian/conffiles $(tmp)/DEBIAN/conffiles
 	#$(INSTALL_FILE) debian/templates $(tmp)/DEBIAN/templates
 	po2debconf debian/templates > debian/templates.merged
 	$(INSTALL_FILE) debian/templates.merged $(tmp)/DEBIAN/templates
-	$(INSTALL_SCRIPT) debian/config $(tmp)/DEBIAN/config
 
 	# overrides file
-	$(INSTALL_DIR) $(tmp)/usr/share/lintian/overrides/
-	$(INSTALL_FILE) debian/squid.overrides \
-		$(tmp)/usr/share/lintian/overrides/squid
 	
 	dpkg-shlibdeps $(tmp)/usr/sbin/* $(tmp)$(libexecdir)/*
 	dpkg-gencontrol -isp -p$(package)
@@ -335,18 +215,8 @@ binary-arch:	build checkroot
 clean: clean1 unpatch
 clean1:	checkroot
 	[ ! -f Makefile ] || $(MAKE) distclean
-	rm -f helpers/basic_auth/NCSA/{Makefile,ncsa_auth.o,ncsa_auth}
-	rm -f helpers/basic_auth/SMB/{smb_auth.o,smb_auth}
-	rm -f helpers/basic_auth/PAM/{pam_auth.o,pam_auth}
-	rm -f helpers/basic_auth/YP/{Makefile,yp_auth,yp_auth.o,nis_support.o}
-	rm -f helpers/basic_auth/MSNT/{Makefile,msnt_auth,*.o}
-	rm -f helpers/basic_auth/LDAP/{Makefile,squid_ldap_auth,*.o}
-	rm -f helpers/basic_auth/getpwnam/{Makefile,getpwnam_auth.o,getpwnam_auth}
-	rm -f helpers/digest_auth/password/{Makefile,digest_pw_auth,digest_pw_auth.o}
 	rm -f helpers/external_acl/ip_user/{Makefile,ip_user,dict.o,main.o,match.o}
-	rm -f helpers/external_acl/ldap_group/{Makefile,squid_ldap_group,squid_ldap_group.o}
 	rm -f helpers/external_acl/unix_group/{Makefile,squid_unix_group,check_group.o}
-	rm -f helpers/ntlm_auth/SMB/{Makefile,ntlm_auth,*.o,smbval/*.o}
 	-rm -f build debian/{substvars,files,templates.merged}
 	rm -rf $(tmp) *~
 	-find . -name '*.bak' -o -name '*~' | xargs -r rm -f --
