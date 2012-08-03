@@ -1,0 +1,40 @@
+#! /bin/sh /usr/share/dpatch/dpatch-run
+## 04-smb-auth.dpatch by Luigi Gangitano <luigi@debian.org>
+##
+## All lines beginning with `## DP:' are a description of the patch.
+## DP: No description.
+
+@DPATCH@
+diff -urNad squid~/helpers/basic_auth/SMB/smb_auth.sh squid/helpers/basic_auth/SMB/smb_auth.sh
+--- squid~/helpers/basic_auth/SMB/smb_auth.sh	2007-04-09 12:23:24.000000000 +0200
++++ squid/helpers/basic_auth/SMB/smb_auth.sh	2009-06-02 19:12:25.000000000 +0200
+@@ -24,7 +24,7 @@
+ read AUTHSHARE
+ read AUTHFILE
+ read SMBUSER
+-read SMBPASS
++read -r SMBPASS
+ 
+ # Find domain controller
+ echo "Domain name: $DOMAINNAME"
+@@ -47,7 +47,7 @@
+   addropt=""
+ fi
+ echo "Query address options: $addropt"
+-dcip=`$SAMBAPREFIX/bin/nmblookup $addropt "$PASSTHROUGH#1c" | awk '/^[0-9.]+ / { print $1 ; exit }'`
++dcip=`$SAMBAPREFIX/bin/nmblookup $addropt "$PASSTHROUGH#1c" | awk '/^[0-9.]+\..+ / { print $1 ; exit }'`
+ echo "Domain controller IP address: $dcip"
+ [ -n "$dcip" ] || exit 1
+ 
+@@ -58,8 +58,10 @@
+ [ -n "$dcname" ] || exit 1
+ 
+ # Pass password to smbclient through environment. Not really safe.
+-USER="$SMBUSER%$SMBPASS"
++USER="$SMBUSER"
++PASSWD="$SMBPASS"
+ export USER
++export PASSWD
+ 
+ # Read the contents of the file $AUTHFILE on the $AUTHSHARE share
+ authfilebs=`echo "$AUTHFILE" | tr / '\\\\'`

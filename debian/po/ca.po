@@ -1,0 +1,90 @@
+# translation of ca.po to catalan
+#
+#    Translators, if you are not familiar with the PO format, gettext
+#    documentation is worth reading, especially sections dedicated to
+#    this format, e.g. by running:
+#         info -n '(gettext)PO Files'
+#         info -n '(gettext)Header Entry'
+#    Some information specific to po-debconf are available at
+#            /usr/share/doc/po-debconf/README-trans
+#         or http://www.debian.org/intl/l10n/po-debconf/README-trans#
+#    Developers do not need to manually edit POT or PO files.
+#
+# Miguel Gea Milvaques <debian@miguelgea.com>, 2006.
+# Miguel Gea Milvaques <xerakko@debian.org>, 2007.
+msgid ""
+msgstr ""
+"Project-Id-Version: ca\n"
+"Report-Msgid-Bugs-To: luigi@debian.org\n"
+"POT-Creation-Date: 2007-09-01 01:49+0200\n"
+"PO-Revision-Date: 2007-09-01 10:49+0200\n"
+"Last-Translator: Miguel Gea Milvaques <xerakko@debian.org>\n"
+"Language-Team: catalan <debian-l10n-catalan@lists.debian.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: KBabel 1.11.4\n"
+
+#. Type: boolean
+#. Description
+#: ../templates:2001
+msgid "Upgrade squid.conf automatically?"
+msgstr "Voleu actualitzar l'squid.conf automàticament?"
+
+#. Type: boolean
+#. Description
+#: ../templates:2001
+msgid "Incompatible settings have been found in the existing squid.conf file."
+msgstr "S'han trobat paràmetres incompatibles al fitxer squid.conf actual."
+
+#. Type: boolean
+#. Description
+#: ../templates:2001
+msgid "They will prevent Squid from starting or working correctly."
+msgstr "Aquests faran que l'Squid no s'engegue o que no funcione correctament."
+
+#. Type: boolean
+#. Description
+#: ../templates:2001
+msgid ""
+"These settings can be corrected now. Please choose whether you want to apply "
+"the needed changes."
+msgstr ""
+"Aquests paràmetres es poden corregir ara. Trieu si voleu aplicar els canvis "
+"necessaris."
+
+#. Type: boolean
+#. Description
+#: ../templates:3001
+msgid "Fix permissions of 'cache_dir'?"
+msgstr "Voleu establir els permisos de «cache_dir»?"
+
+#. Type: boolean
+#. Description
+#: ../templates:3001
+msgid ""
+"The values for 'cache_effective_user' and/or 'cache_effective_group' in "
+"Squid's configuration file are incompatible with the owner/group of the "
+"cache directories."
+msgstr ""
+"Els valors per «cache_effective_user» i/o «cache_effective_group» al vostre "
+"fitxer de configuració són incompatibles amb l'usuari/grup del directori de "
+"memòria cau. "
+
+#. Type: boolean
+#. Description
+#: ../templates:3001
+msgid "Please choose whether this should be fixed automatically."
+msgstr "Trieu si s'hauria de corregir automàticament."
+
+#. Type: boolean
+#. Description
+#: ../templates:3001
+msgid ""
+"However, please note that if you specified a cache directory different from /"
+"var/spool/squid (such as /tmp), this could affect any other programs using "
+"that directory."
+msgstr ""
+"Per altra banda, adoneu-vos que si especifiqueu un directori per la memòria "
+"cau diferent de /var/spool/squid (per exemple el /tmp), podria afectar a "
+"altres programes que utilitzen eixe directori."

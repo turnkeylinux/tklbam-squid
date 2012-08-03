@@ -1,0 +1,213 @@
+#!/bin/sh -e
+## 01-cf.data.debian.dpatch by Luigi Gangitano <luigi@debian.org>
+##
+## All lines beginning with `## DP:' are a description of the patch.
+## DP: Default configuration file for Debian.
+
+if [ $# -ne 1 ]; then
+    echo >&2 "`basename $0`: script expects -patch|-unpatch as argument"
+    exit 1
+fi
+
+[ -f debian/patches/00patch-opts ] && . debian/patches/00patch-opts
+patch_opts="${patch_opts:--f --no-backup-if-mismatch}"
+
+case "$1" in
+       -patch) patch $patch_opts -p1 < $0;;
+       -unpatch) patch $patch_opts -p1 -R < $0;;
+        *)
+                echo >&2 "`basename $0`: script expects -patch|-unpatch as argument"
+                exit 1;;
+esac
+
+exit 0
+
+@DPATCH@
+diff -urNad squid~/src/cf.data.pre squid/src/cf.data.pre
+--- squid~/src/cf.data.pre	2008-07-06 10:52:16.000000000 +0200
++++ squid/src/cf.data.pre	2008-10-27 20:36:00.000000000 +0100
+@@ -125,7 +125,7 @@
+ 
+ 	Then, set this line to something like
+ 
+-	auth_param basic program @DEFAULT_PREFIX@/libexec/ncsa_auth @DEFAULT_PREFIX@/etc/passwd
++	auth_param basic program @DEFAULT_PREFIX@/lib/squid/ncsa_auth @DEFAULT_PREFIX@/etc/passwd
+ 
+ 	"children" numberofchildren
+ 	The number of authenticator processes to spawn. If you start too few
+@@ -192,7 +192,7 @@
+ 
+ 	Then, set this line to something like
+ 
+-	auth_param digest program @DEFAULT_PREFIX@/libexec/digest_auth_pw @DEFAULT_PREFIX@/etc/digpass
++	auth_param digest program @DEFAULT_PREFIX@/lib/squid/digest_auth_pw @DEFAULT_PREFIX@/etc/digpass
+ 
+ 	"children" numberofchildren
+ 	The number of authenticator processes to spawn. If you start too few
+@@ -260,7 +260,7 @@
+ 	By default, the ntlm authentication scheme is not used unless a
+ 	program is specified.
+ 
+-	auth_param ntlm program /path/to/samba/bin/ntlm_auth --helper-protocol=squid-2.5-ntlmssp
++	auth_param ntlm program /usr/bin/ntlm_auth --helper-protocol=squid-2.5-ntlmssp
+ 
+ 	"children" numberofchildren
+ 	The number of authenticator processes to spawn. If you start too few
+@@ -665,7 +665,9 @@
+ acl localnet src 172.16.0.0/12	# RFC1918 possible internal network
+ acl localnet src 192.168.0.0/16	# RFC1918 possible internal network
+ #
+-acl SSL_ports port 443
++acl SSL_ports port 443		# https
++acl SSL_ports port 563		# snews
++acl SSL_ports port 873		# rsync
+ acl Safe_ports port 80		# http
+ acl Safe_ports port 21		# ftp
+ acl Safe_ports port 443		# https
+@@ -676,6 +678,10 @@
+ acl Safe_ports port 488		# gss-http
+ acl Safe_ports port 591		# filemaker
+ acl Safe_ports port 777		# multiling http
++acl Safe_ports port 631		# cups
++acl Safe_ports port 873		# rsync
++acl Safe_ports port 901		# SWAT
++acl purge method PURGE
+ acl CONNECT method CONNECT
+ NOCOMMENT_END
+ DOC_END
+@@ -709,6 +715,9 @@
+ # Only allow cachemgr access from localhost
+ http_access allow manager localhost
+ http_access deny manager
++# Only allow purge requests from localhost
++http_access allow purge localhost
++http_access deny purge
+ # Deny requests to unknown ports
+ http_access deny !Safe_ports
+ # Deny CONNECT to other than SSL ports
+@@ -724,7 +733,8 @@
+ # Example rule allowing access from your local networks.
+ # Adapt localnet in the ACL section to list your (internal) IP networks
+ # from where browsing should be allowed
+-http_access allow localnet
++#http_access allow localnet
++http_access allow localhost
+ 
+ # And finally deny all other access to this proxy
+ http_access deny all
+@@ -2137,7 +2147,7 @@
+ NAME: maximum_object_size
+ COMMENT: (bytes)
+ TYPE: b_size_t
+-DEFAULT: 4096 KB
++DEFAULT: 20480 KB
+ LOC: Config.Store.maxObjectSize
+ DOC_START
+ 	Objects larger than this size will NOT be saved on disk.  The
+@@ -2150,6 +2160,10 @@
+ 	NOTE: if using the LFUDA replacement policy you should increase
+ 	this value to maximize the byte hit rate improvement of LFUDA!
+ 	See replacement_policy below for a discussion of this policy.
++
++	NOTE 2: In Debian the default is raised to 20MB allowing cache
++	of Packages files in debian repositories. This makes squid a
++	proper proxy for APT.
+ DOC_END
+ 
+ NAME: cache_swap_low
+@@ -2385,7 +2399,7 @@
+ 
+ NAME: logfile_rotate
+ TYPE: int
+-DEFAULT: 10
++DEFAULT: 0
+ LOC: Config.Log.rotateNumber
+ DOC_START
+ 	Specifies the number of logfile rotations to make when you
+@@ -2401,6 +2415,9 @@
+ 	purposes, so -k rotate uses another signal.  It is best to get
+ 	in the habit of using 'squid -k rotate' instead of 'kill -USR1
+ 	<pid>'.
++
++	Note2, for Debian/Linux the default of logfile_rotate is
++	zero, since it includes external logfile-rotation methods.
+ DOC_END
+ 
+ NAME: emulate_httpd_log
+@@ -3029,6 +3046,7 @@
+ refresh_pattern ^ftp:		1440	20%	10080
+ refresh_pattern ^gopher:	1440	0%	1440
+ refresh_pattern -i (/cgi-bin/|\?) 0	0%	0
++refresh_pattern (Release|Packages(.gz)*)$	0	20%	2880
+ refresh_pattern .		0	20%	4320
+ NOCOMMENT_END
+ DOC_END
+@@ -3363,6 +3381,9 @@
+ DOC_START
+ 	Squid only knows about standardized HTTP request methods.
+ 	You can add up to 20 additional "extension" methods here.
++NOCOMMENT_START
++extension_methods REPORT MERGE MKACTIVITY CHECKOUT
++NOCOMMENT_END
+ DOC_END
+ 
+ NAME: request_entities
+@@ -3753,12 +3774,12 @@
+ 
+ NAME: cache_effective_user
+ TYPE: string
+-DEFAULT: nobody
++DEFAULT: proxy
+ LOC: Config.effectiveUser
+ DOC_START
+ 	If you start Squid as root, it will change its effective/real
+ 	UID/GID to the user specified below.  The default is to change
+-	to UID to nobody.  If you define cache_effective_user, but not
++	to UID to proxy.  If you define cache_effective_user, but not
+ 	cache_effective_group, Squid sets the GID to the effective
+ 	user's default group ID (taken from the password file) and
+ 	supplementary group list from the from groups membership of
+@@ -4395,12 +4416,15 @@
+ NAME: snmp_port
+ TYPE: ushort
+ LOC: Config.Port.snmp
+-DEFAULT: 3401
++DEFAULT: 0
+ IFDEF: SQUID_SNMP
+ DOC_START
+ 	Squid can now serve statistics and status information via SNMP.
+ 	By default it listens to port 3401 on the machine. If you don't
+ 	wish to use SNMP, set this to "0".
++
++	Note: on Debian/Linux, the default is zero - you need to
++	set it to 3401 to enable it.
+ DOC_END
+ 
+ NAME: snmp_access
+@@ -4471,12 +4495,12 @@
+ NAME: htcp_port
+ IFDEF: USE_HTCP
+ TYPE: ushort
+-DEFAULT: 4827
++DEFAULT: 0
+ LOC: Config.Port.htcp
+ DOC_START
+ 	The port number where Squid sends and receives HTCP queries to
+-	and from neighbor caches.  Default is 4827.  To disable use
+-	"0".
++	and from neighbor caches.  To turn it on you want to set it 4827.
++	By default it is set to "0" (disabled).
+ DOC_END
+ 
+ NAME: log_icp_queries
+@@ -5239,6 +5263,10 @@
+ 	If append_domain is used, that domain will be added to
+ 	domain-local (i.e. not containing any dot character) host
+ 	definitions.
++
++NOCOMMENT_START
++hosts_file /etc/hosts
++NOCOMMENT_END
+ DOC_END
+ 
+ NAME: dns_testnames

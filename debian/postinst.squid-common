@@ -1,0 +1,30 @@
+#! /bin/sh
+
+set -e
+
+
+case "$1" in
+	configure)
+		#
+		# Fix directory->link transition for /usr/share/squid/errors in
+		# 2.7.STABLE6-2
+		#
+		if (dpkg --compare-versions "$2" lt '2.7.STABLE6-2' &&
+		   [ ! -h "/usr/share/squid/errors" ] &&
+		   [ -d "/usr/share/squid/errors" ])
+		then
+			rm -rf /usr/share/squid/errors
+			ln -sf /usr/share/squid-langpack /usr/share/squid/errors
+		fi
+
+		;;
+	abort-upgrade|abort-remove|abort-deconfigure)
+		;;
+	*)
+		#
+		#	Unknown action - do nothing.
+		#
+		exit 0
+		;;
+esac
+

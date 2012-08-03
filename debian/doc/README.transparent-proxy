@@ -1,0 +1,19 @@
+
+You can do transparent caching on Linux, Solaris, and BSD derivations.
+
+The FAQ talks about this, search CompleteFaq for 'Interception Caching'.
+
+The trick is to get the operating system to forward certain IP packets 
+to the application.  This document currently contains only instruction
+for configuring transparent caching on Linux and Solaris.
+
+For squid-2.6 it is as easy as adding the keyword 'transparent' to the
+http_port setting, like this
+
+  http_port 3128 transparent.
+
+If you keep this in mind the general info in the FAQ should get
+you up and running without any further problems.
+
+      Luigi Gangitano <luigi@debian.org> 11-May-2007
+

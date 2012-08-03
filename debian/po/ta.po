@@ -1,0 +1,80 @@
+# translation of squid 2.6.14-3.po to TAMIL
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+#
+# Dr.T.Vasudevan <agnihot3@gmail.com>, 2007.
+msgid ""
+msgstr ""
+"Project-Id-Version: squid 2.6.14-3\n"
+"Report-Msgid-Bugs-To: luigi@debian.org\n"
+"POT-Creation-Date: 2007-09-01 01:49+0200\n"
+"PO-Revision-Date: 2007-09-01 19:26+0530\n"
+"Last-Translator: Dr.T.Vasudevan <agnihot3@gmail.com>\n"
+"Language-Team: TAMIL <ubuntu-l10n-tam@lists.ubuntu.com>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: KBabel 1.11.4\n"
+
+#. Type: boolean
+#. Description
+#: ../templates:2001
+msgid "Upgrade squid.conf automatically?"
+msgstr "தானியங்கியாக squid.conf ஐ இற்றைப்படுத்தவா?"
+
+#. Type: boolean
+#. Description
+#: ../templates:2001
+msgid "Incompatible settings have been found in the existing squid.conf file."
+msgstr "இருப்பில் உள்ள squid.conf கோப்பில் இசைவில்லாத வடிவமைப்புகள் உள்ளன."
+
+#. Type: boolean
+#. Description
+#: ../templates:2001
+msgid "They will prevent Squid from starting or working correctly."
+msgstr "அவை ஸ்க்விட் சரியாக துவங்குவதையும் இயங்குவதையும் தடுக்கலாம்."
+
+#. Type: boolean
+#. Description
+#: ../templates:2001
+msgid ""
+"These settings can be corrected now. Please choose whether you want to apply "
+"the needed changes."
+msgstr ""
+"இந்த வடிவமைப்புகள் இப்போது சரி செய்யப்பட இயலும். தேவையான மற்றங்களை செய்யலாமா என "
+"தேர்ந்தெடுங்கள்."
+
+#. Type: boolean
+#. Description
+#: ../templates:3001
+msgid "Fix permissions of 'cache_dir'?"
+msgstr "'cache_dir' அடைவின் அனுமதிகளை சரி செய்யலாமா?"
+
+#. Type: boolean
+#. Description
+#: ../templates:3001
+msgid ""
+"The values for 'cache_effective_user' and/or 'cache_effective_group' in "
+"Squid's configuration file are incompatible with the owner/group of the "
+"cache directories."
+msgstr ""
+"ஸ்க்விட் வடிவமைப்பில் 'cache_effective_user'  மற்றும்/அல்லது "
+"'cache_effective_group'  ஆகியவற்றின் மதிப்புகள் இடை மாற்று அடைவுகளின் உரிமையாளர்/"
+"குழு உடன் இசைவில்லாது உள்ளது."
+
+#. Type: boolean
+#. Description
+#: ../templates:3001
+msgid "Please choose whether this should be fixed automatically."
+msgstr "தயை செய்து இவற்றை தானியங்கியாக சரி செய்யலாமா என தேர்ந்தெடுக்கவும். "
+
+#. Type: boolean
+#. Description
+#: ../templates:3001
+msgid ""
+"However, please note that if you specified a cache directory different from /"
+"var/spool/squid (such as /tmp), this could affect any other programs using "
+"that directory."
+msgstr ""
+"எனினும் நீங்கள் /var/spool/squid அடைவை தவிர்த்து /tmp போன்ற அடைவை தேர்ந்தெடுத்தால் அந்த "
+"அடைவை பயன் படுத்தும் மற்ற நிரல்களின் இயக்கத்தை பாதிக்கக் கூடும் என அறியவும்."

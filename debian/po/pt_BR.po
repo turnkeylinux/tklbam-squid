@@ -1,0 +1,85 @@
+# squid's po-debconf Brazilian Portuguese translation.
+# Copyright (C) 2007, André Luís Lopes
+# This file is distributed under the same license as the squid package.
+# André Luís Lopes <andrelop@debian.org>, 2007.
+# Herbert P Fortes Neto <h_p_f_n@yahoo.com.br>, 2007.
+msgid ""
+msgstr ""
+"Project-Id-Version: squid\n"
+"Report-Msgid-Bugs-To: luigi@debian.org\n"
+"POT-Creation-Date: 2007-09-01 01:49+0200\n"
+"PO-Revision-Date: 2007-06-09 15:00-0300\n"
+"Last-Translator: Herbert P Fortes Neto <h_p_f_n@yahoo.com.br>\n"
+"Language-Team: l10n-portuguese <debian-l10n-portuguese@lists.debian.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"pt_BR utf-8\n"
+
+#. Type: boolean
+#. Description
+#: ../templates:2001
+msgid "Upgrade squid.conf automatically?"
+msgstr "Atualizar arquivo squid.conf automaticamente?"
+
+#. Type: boolean
+#. Description
+#: ../templates:2001
+msgid "Incompatible settings have been found in the existing squid.conf file."
+msgstr ""
+"Configurações incompatíveis foram encontradas no arquivo squid.conf "
+"existente."
+
+#. Type: boolean
+#. Description
+#: ../templates:2001
+msgid "They will prevent Squid from starting or working correctly."
+msgstr "Elas irão impedir o Squid de iniciar ou funcionar de forma correta."
+
+#. Type: boolean
+#. Description
+#: ../templates:2001
+msgid ""
+"These settings can be corrected now. Please choose whether you want to apply "
+"the needed changes."
+msgstr ""
+"Essas configurações podem ser corrigidas agora. Por favor escolha se você "
+"quer aplicar as mudanças necessárias."
+
+#. Type: boolean
+#. Description
+#: ../templates:3001
+#, fuzzy
+#| msgid "Fix permissions of cache_dir?"
+msgid "Fix permissions of 'cache_dir'?"
+msgstr "Corrigir permissões de cache_dir?"
+
+#. Type: boolean
+#. Description
+#: ../templates:3001
+msgid ""
+"The values for 'cache_effective_user' and/or 'cache_effective_group' in "
+"Squid's configuration file are incompatible with the owner/group of the "
+"cache directories."
+msgstr ""
+"Os valor para 'cache_effective_user' e/ou 'cache_effective_group' no arquivo "
+"de configuração do Squid são incompatíveis com o dono/grupo dos diretórios "
+"de cache. "
+
+#. Type: boolean
+#. Description
+#: ../templates:3001
+msgid "Please choose whether this should be fixed automatically."
+msgstr "Por favor escolha se isso deve ser corrigido automaticamente."
+
+#. Type: boolean
+#. Description
+#: ../templates:3001
+msgid ""
+"However, please note that if you specified a cache directory different from /"
+"var/spool/squid (such as /tmp), this could affect any other programs using "
+"that directory."
+msgstr ""
+"Contudo, por favor note que caso você tenha especificado um diretório de "
+"cache diferente de /var/spool/squid (por exemplo, /tmp), isso poderá afetar "
+"quaisquer outros programas que usam esse diretório."

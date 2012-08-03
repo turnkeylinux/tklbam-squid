@@ -1,0 +1,86 @@
+# Vietnamese translation for squid.
+# Copyright © 2007 Free Software Foundation, Inc.
+# Clytie Siddall <clytie@riverland.net.au>, 2005-2007.
+# 
+msgid ""
+msgstr ""
+"Project-Id-Version: squid_2.6.14-3\n"
+"Report-Msgid-Bugs-To: luigi@debian.org\n"
+"POT-Creation-Date: 2007-09-01 01:49+0200\n"
+"PO-Revision-Date: 2007-09-01 15:30+0930\n"
+"Last-Translator: Clytie Siddall <clytie@riverland.net.au>\n"
+"Language-Team: Vietnamese <vi-VN@googlegroups.com>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+"X-Generator: LocFactoryEditor 1.7b1\n"
+
+#. Type: boolean
+#. Description
+#: ../templates:2001
+msgid "Upgrade squid.conf automatically?"
+msgstr "Tự động nâng cấp « squid.conf » không?"
+
+#. Type: boolean
+#. Description
+#: ../templates:2001
+msgid "Incompatible settings have been found in the existing squid.conf file."
+msgstr ""
+"Tìm thấy thiết lập không tương thích trong tập tin cấu hình « squid.conf » "
+"tồn tại."
+
+#. Type: boolean
+#. Description
+#: ../templates:2001
+msgid "They will prevent Squid from starting or working correctly."
+msgstr ""
+"Thiết lập này sẽ ngăn cản phần mềm Squid khởi chạy hay hoạt động một cách "
+"đúng."
+
+#. Type: boolean
+#. Description
+#: ../templates:2001
+msgid ""
+"These settings can be corrected now. Please choose whether you want to apply "
+"the needed changes."
+msgstr ""
+"Có thể sửa chữa thiết lập này ngay bây giờ. Hãy chọn nếu bạn muốn áp dụng "
+"những thay đổi cần thiết."
+
+#. Type: boolean
+#. Description
+#: ../templates:3001
+msgid "Fix permissions of 'cache_dir'?"
+msgstr "Sửa chữa quyền hạn của « cache_dir » không?"
+
+#. Type: boolean
+#. Description
+#: ../templates:3001
+msgid ""
+"The values for 'cache_effective_user' and/or 'cache_effective_group' in "
+"Squid's configuration file are incompatible with the owner/group of the "
+"cache directories."
+msgstr ""
+"Giá trị cho « cache_effective_user » (người dùng có quyền truy cập bộ nhớ "
+"tạm) và/hay « cache_effective_group » (nhóm như thế) trong tập tin cấu hình "
+"của Squid không phải tương thích với người sở hữu/nhóm của các thư mục nhớ "
+"tạm."
+
+#. Type: boolean
+#. Description
+#: ../templates:3001
+msgid "Please choose whether this should be fixed automatically."
+msgstr "Hãy chọn có nên tự động sửa chữa trường hợp này hay không."
+
+#. Type: boolean
+#. Description
+#: ../templates:3001
+msgid ""
+"However, please note that if you specified a cache directory different from /"
+"var/spool/squid (such as /tmp), this could affect any other programs using "
+"that directory."
+msgstr ""
+"Tuy nhiên, ghi chú rằng nếu bạn đã ghi rõ một thư mục nhớ tạm khác với « /"
+"var/spool/squid » (như « /tmp »), thiết lập này có thể tác động những chương "
+"trình khác cũng dùng thư mục đó."

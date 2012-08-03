@@ -1,0 +1,7 @@
+squid: non-standard-dir-perm var/log/squid/ 0750 != 0755
+squid: non-standard-dir-perm var/spool/squid/ 0750 != 0755
+squid: non-standard-setuid-executable-perm usr/lib/squid/getpwnam_auth 2754
+squid: non-standard-setuid-executable-perm usr/lib/squid/pam_auth 2754
+squid: setgid-binary usr/lib/squid/pam_auth 2754 proxy/shadow
+squid: setgid-binary usr/lib/squid/getpwnam_auth 2754 proxy/shadow
+

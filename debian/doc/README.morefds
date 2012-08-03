@@ -1,0 +1,17 @@
+
+
+		More filedescriptors for squid
+
+
+The Debian Squid package is compiled with a limit of filedescriptors
+set to 65534. At startup time this limit is lowered to 1024 to save
+runtime resources in default setup. You can change this runtime
+setting by increasing SQUID_MAXFD in /etc/default/squid.
+
+The /etc/init.d/squid script then sets the maximum number of
+filedescriptors at startup using 'ulimit'. It also examines
+the global file maximum in /proc/sys/fs/file-max and increases
+that to (SQUID_MAXFD + 4096) if it is lower than that.
+
+	README.morefds  1.21  11-May-2007  luigi@debian.org
+

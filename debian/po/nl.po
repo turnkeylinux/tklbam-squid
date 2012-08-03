@@ -1,0 +1,83 @@
+# Dutch squid po-debconf translation,
+# Copyright (C) 2007 THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the squid package.
+# Vincent Zweije <zweije@xs4all.nl>, 2007.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: squid 2.7.STABLE3-1\n"
+"Report-Msgid-Bugs-To: luigi@debian.org\n"
+"POT-Creation-Date: 2007-09-01 01:49+0200\n"
+"PO-Revision-Date: 2008-08-19 09:02+0000\n"
+"Last-Translator: Vincent Zweije <zweije@xs4all.nl>\n"
+"Language-Team: Debian l10n Dutch <debian-l10n-dutch@lists.debian.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#. Type: boolean
+#. Description
+#: ../templates:2001
+msgid "Upgrade squid.conf automatically?"
+msgstr "squid.conf automatisch opwaarderen?"
+
+#. Type: boolean
+#. Description
+#: ../templates:2001
+msgid "Incompatible settings have been found in the existing squid.conf file."
+msgstr ""
+"Incompatibele instellingen gevonden in bestaand squid.conf bestand"
+
+#. Type: boolean
+#. Description
+#: ../templates:2001
+msgid "They will prevent Squid from starting or working correctly."
+msgstr ""
+"Squid zal hierdoor niet correct starten of werken."
+
+#. Type: boolean
+#. Description
+#: ../templates:2001
+msgid ""
+"These settings can be corrected now. Please choose whether you want to apply "
+"the needed changes."
+msgstr ""
+"Deze instellingen kunnen nu worden gecorrigeerd. Wilt u de benodigde "
+"wijzigingen toepassen?"
+
+#. Type: boolean
+#. Description
+#: ../templates:3001
+msgid "Fix permissions of 'cache_dir'?"
+msgstr ""
+"Permissies van 'cache_dir' repareren?"
+
+#. Type: boolean
+#. Description
+#: ../templates:3001
+msgid ""
+"The values for 'cache_effective_user' and/or 'cache_effective_group' in "
+"Squid's configuration file are incompatible with the owner/group of the "
+"cache directories."
+msgstr ""
+"De waarden voor 'cache_effective_user' en/of 'cache_effective_group' "
+"in het configuratiebestand zijn incompatibel met de gebruiker/groep van "
+"de cache-mappen."
+
+#. Type: boolean
+#. Description
+#: ../templates:3001
+msgid "Please choose whether this should be fixed automatically."
+msgstr ""
+"Wilt u de permissies van de cache-map automatisch laten repareren?"
+
+#. Type: boolean
+#. Description
+#: ../templates:3001
+msgid ""
+"However, please note that if you specified a cache directory different from /"
+"var/spool/squid (such as /tmp), this could affect any other programs using "
+"that directory."
+msgstr ""
+"Echter, als u een andere cache-map opgaf dan /var/spool/squid (zoals /tmp), "
+"dan kan dit deze programma's beïnvloeden."

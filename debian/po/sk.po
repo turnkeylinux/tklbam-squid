@@ -1,0 +1,75 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: squid 2.6.14-1\n"
+"Report-Msgid-Bugs-To: luigi@debian.org\n"
+"POT-Creation-Date: 2007-09-01 01:49+0200\n"
+"PO-Revision-Date: 2007-09-03 23:56+0100\n"
+"Last-Translator: Ivan Masár <helix84@centrum.sk>\n"
+"Language-Team: Slovak <sk-i18n@lists.linux.sk>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#. Type: boolean
+#. Description
+#: ../templates:2001
+msgid "Upgrade squid.conf automatically?"
+msgstr "Aktualizovať squid.conf automaticky?"
+
+#. Type: boolean
+#. Description
+#: ../templates:2001
+msgid "Incompatible settings have been found in the existing squid.conf file."
+msgstr "V existujúcom súbore squid.conf sa našli nekompatibilné nastavenia."
+
+#. Type: boolean
+#. Description
+#: ../templates:2001
+msgid "They will prevent Squid from starting or working correctly."
+msgstr "Tieto budú brániť v správnom spustení alebo fungovaní Squid."
+
+#. Type: boolean
+#. Description
+#: ../templates:2001
+msgid ""
+"These settings can be corrected now. Please choose whether you want to apply "
+"the needed changes."
+msgstr ""
+"Tieto nastavenia sa teraz napravia. Prosím, zvoľte, či chcete použiť "
+"potrebné zmeny."
+
+#. Type: boolean
+#. Description
+#: ../templates:3001
+msgid "Fix permissions of 'cache_dir'?"
+msgstr "Napraviť povolenia 'cache_dir'?"
+
+#. Type: boolean
+#. Description
+#: ../templates:3001
+msgid ""
+"The values for 'cache_effective_user' and/or 'cache_effective_group' in "
+"Squid's configuration file are incompatible with the owner/group of the "
+"cache directories."
+msgstr ""
+"Hodnoty „cache_effective_user“ a/alebo „cache_effective_group“ v "
+"konfiguračnom súbore programu Squid sú nekompatibilné s vlastníkom/skupinou "
+"adresárov vyrovnávacej pamäte (cache)."
+
+#. Type: boolean
+#. Description
+#: ../templates:3001
+msgid "Please choose whether this should be fixed automatically."
+msgstr "Prosím, zvoľte, či sa tento problém má napraviť automaticky."
+
+#. Type: boolean
+#. Description
+#: ../templates:3001
+msgid ""
+"However, please note that if you specified a cache directory different from /"
+"var/spool/squid (such as /tmp), this could affect any other programs using "
+"that directory."
+msgstr ""
+"Ale majte prosím na pamäti, že ak ste zadali odlišný adresár vyrovnávacej "
+"pamäte ako /var/spool/squid (ako napr. /tmp), toto môže mať vplyv na všetky "
+"ostatné programy, ktoré tento adresár používajú."

@@ -1,0 +1,40 @@
+
+
+	README for the squid-cgi cachemanager package.
+
+
+0. INTRODUCTION
+
+   This package was seperated from the main squid proxy cache package so
+   that you can install it on another server than the one squid is
+   running on, usually your webserver host.
+
+1. DOCUMENTATION
+
+   There's a chapter on the cache manager in the squid FAQ. The relevant
+   section of the FAQ is installed as /usr/doc/squid-cgi/CacheManager.
+
+2. POINTING IT TO YOUR CACHE HOST
+
+   The FAQ tells you that if you want to use the cachemgr.cgi program to
+   connect by default to another host instead of localhost and/or another port
+   that you should recompile cachemgr.cgi. This is not strictly true; you
+   can save the output of the initial screen to cachemgr.html, change
+   the defaults, save it somewhere into your HTML documents tree and call
+   up that screen instead of cachemgr.cgi.
+
+   A sample cachemgr.html is provided in /usr/doc/squid-cgi/examples/
+
+3. WARNING
+
+   Because it is easy to point the cache manager to any host and port,
+   the cache manager can be used to connect to any service on any host
+   inside or outside your network. Thus hosts that can be accessed by 
+   cachemgr.cgi are limited by settings in /etc/squid/cachemgr.conf.
+
+   By default only localhost can be accessed by cachemgr.cgi, more hosts
+   can be added, one per line. Ports can also be limited with the usual
+   syntax: 'hostname:port'.
+
+
+           cachemgr.README  1.4  12-May-2007  luigi@debian.org

@@ -1,0 +1,34 @@
+# These templates have been reviewed by the debian-l10n-english
+# team
+#
+# If modifications/additions/rewording are needed, please ask
+# for an advice to debian-l10n-english@lists.debian.org
+#
+# Even minor modifications require translation updates and such
+# changes should be coordinated with translators and reviewers.
+
+Template: squid/fix_lines
+Type: boolean
+Default: true
+_Description: Upgrade squid.conf automatically?
+ Incompatible settings have been found in the existing squid.conf file.
+ .
+ They will prevent Squid from starting or working correctly. 
+ .
+ These settings can be corrected now. Please choose whether you want
+ to apply the needed changes.
+
+Template: squid/fix_cachedir_perms
+Type: boolean
+Default: false
+_Description: Fix permissions of 'cache_dir'?
+ The values for 'cache_effective_user' and/or 'cache_effective_group'
+ in Squid's configuration file are incompatible with the owner/group of the cache
+ directories.
+ . 
+ Please choose whether this should be fixed automatically.
+ .
+ However, please note that if you specified a cache directory
+ different from /var/spool/squid (such as /tmp), this could affect
+ any other programs using that directory.
+

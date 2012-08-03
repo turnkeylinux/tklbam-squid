@@ -1,0 +1,228 @@
+# Portuguese translation for squid debconf messages.
+# Copyright (C) Tiago Fernandes <tjg.fernandes@gmail.com>, 2006
+# This file is distributed under the same license as the Squid package.
+# Tiago Fernandes <tjg.fernandes@gmail.com>, 2006
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: squid 2.6.5-1\n"
+"Report-Msgid-Bugs-To: luigi@debian.org\n"
+"POT-Creation-Date: 2007-09-01 01:49+0200\n"
+"PO-Revision-Date: 2008-06-29 21:43+0100\n"
+"Last-Translator: Tiago Fernandes <tjg.fernandes@gmail.com>\n"
+"Language-Team: Portuguese <traduz@debianpt.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#. Type: boolean
+#. Description
+#: ../templates:2001
+msgid "Upgrade squid.conf automatically?"
+msgstr "Actualizar o squid.conf automaticamente?"
+
+#. Type: boolean
+#. Description
+#: ../templates:2001
+msgid "Incompatible settings have been found in the existing squid.conf file."
+msgstr ""
+"Foram encontradas configurações incompatíveis no ficheiro squid.conf já "
+"existente."
+
+#. Type: boolean
+#. Description
+#: ../templates:2001
+msgid "They will prevent Squid from starting or working correctly."
+msgstr "Impedirão que o Squid inicie ou funcione correctamente."
+
+#. Type: boolean
+#. Description
+#: ../templates:2001
+msgid ""
+"These settings can be corrected now. Please choose whether you want to apply "
+"the needed changes."
+msgstr ""
+"Estas configurações podem ser corrigidas agora. Por favor, escolha quando "
+"vai querer aplicar as alterações necessárias."
+
+#. Type: boolean
+#. Description
+#: ../templates:3001
+msgid "Fix permissions of 'cache_dir'?"
+msgstr "Reparar as permissões do cache_dir?"
+
+#. Type: boolean
+#. Description
+#: ../templates:3001
+msgid ""
+"The values for 'cache_effective_user' and/or 'cache_effective_group' in "
+"Squid's configuration file are incompatible with the owner/group of the "
+"cache directories."
+msgstr ""
+"Os valores para 'cache_effective_user' e/ou 'cache_effective_group' no "
+"ficheiro de configuração do Squid são incompatíveis com o dono/grupo dos "
+"directórios de cache."
+
+#. Type: boolean
+#. Description
+#: ../templates:3001
+msgid "Please choose whether this should be fixed automatically."
+msgstr "Por favor escolha quando deverá isto ser corrigido automaticamente."
+
+#. Type: boolean
+#. Description
+#: ../templates:3001
+msgid ""
+"However, please note that if you specified a cache directory different from /"
+"var/spool/squid (such as /tmp), this could affect any other programs using "
+"that directory."
+msgstr ""
+"Contudo, por favor note que se tiver especificado um directório de cache "
+"diferente de /var/spool/squid (como /tmp), poderá afectar quaisquer outros "
+"programas que utilizem esse directório."
+
+#~ msgid ""
+#~ "The http_anonymizer directive has been replaced with header_replace and "
+#~ "header_access."
+#~ msgstr ""
+#~ "O parâmetro http_anonymizer foi substituído por header_replace e "
+#~ "header_access."
+
+#~ msgid ""
+#~ "The http_anonymizer directive that was present in squid 2.1 and 2.2 "
+#~ "doesn't exist anymore in squid 2.3 and up. It has been replaced with "
+#~ "header_replace and header_access that provide more fine-grained control "
+#~ "over HTTP headers. Right now, your squid doesn't anonymize the HTTP "
+#~ "headers anymore so you probably want to fix this. The new format is "
+#~ "explained in the new 2.5 config file, of which you probably have a copy "
+#~ "in /usr/share/doc/squid/examples/squid.conf."
+#~ msgstr ""
+#~ "O parâmetro http_anonymizer que estava presente no squid 2.1 e 2.2 já não "
+#~ "existe no squid 2.3 e posteriores. Foi substituído por header_replace e "
+#~ "header_access, que oferecem um controlo mais detalhado dos cabeçalhos "
+#~ "HTTP. Neste momento, o seu squid já não torna os cabeçalhos HTTP "
+#~ "anónimos, provavelmente vai querer corrigir isto. O novo formato é "
+#~ "explicado no ficheiro de configuração da nova versão 2.5, do qual já deve "
+#~ "ter uma cópia em /usr/share/doc/squid/examples/squid.conf."
+
+#~ msgid ""
+#~ "The anonymize_headers and fake_user_agent directives have been replaced "
+#~ "with header_access and header_replace."
+#~ msgstr ""
+#~ "Os parâmetros anonymize_headers e fake_user_agent, foram substituidos por "
+#~ "header_access e header_replace."
+
+#~ msgid ""
+#~ "The anonymize_headers and fake_user_agent directives that were present in "
+#~ "squid 2.3 and 2.4 don't exist anymore in squid 2.5 and up. They have been "
+#~ "replaced  with header_replace and header_access that provide more fine-"
+#~ "grained control  over HTTP headers. Right now, your squid doesn't "
+#~ "anonymize the HTTP headers anymore so you probably want to fix this. The "
+#~ "new format is explained in the new 2.5 config file, of which you probably "
+#~ "have a copy in /usr/share/doc/squid/examples/squid.conf."
+#~ msgstr ""
+#~ "Os parâmetros anonymize_headers e fake_user_agent que estavam presentes "
+#~ "no squid 2.3 e 2.4 já não existem no squid 2.5 e posteriores. Foram "
+#~ "substituídos por header_replace e header_access, que oferecem um controlo "
+#~ "mais detalhado dos cabeçalhos HTTP. O novo formato é explicado no "
+#~ "ficheiro de configuração da nova versão 2.5, do qual já deve ter uma "
+#~ "cópia em /usr/share/doc/squid/examples/squid.conf."
+
+#~ msgid "There is no automatic upgrade path to squid 2.5."
+#~ msgstr ""
+#~ "Não existe forma automática de actualizar o squid para a versão 2.5."
+
+#~ msgid "             SQUID 2.5 INSTALLATION WARNING"
+#~ msgstr "            SQUID 2.5 AVISO DE INSTALAÇÃO"
+
+#~ msgid ""
+#~ "You are upgrading squid from an 1.x version to the 2.5 version. The 1.x "
+#~ "and 2.5 versions are NOT compatible. The structure of the cache directory "
+#~ "is different and the configuration file \"squid.conf\" is not entirely "
+#~ "compatible."
+#~ msgstr ""
+#~ "Está a actualizar o squid versão 1.x para uma versão 2.5. As versões 1.x "
+#~ "e 2.5, NÃO são compatíveis. A estrutura dos directórios é diferente e o "
+#~ "ficheiro de configuração \"squid.conf\" não é inteiramente compatível."
+
+#~ msgid ""
+#~ "If you have an old cache directory, please quit NOW and remove the old "
+#~ "cache by hand (in /var/spool/squid). Then re-install this squid version."
+#~ msgstr ""
+#~ "Se tem um directório antigo de cache, por favor, saia AGORA e remova "
+#~ "manualmente o ficheiros antigos de cache (em /var/spool/squid). Depois, "
+#~ "reinstale esta versão do squid."
+
+#~ msgid ""
+#~ "Also, please accept the new configuration file. After upgrading your old "
+#~ "configuration file can be found in \"/etc/squid.conf.dpkg-old\". Then you "
+#~ "have to edit the new configuration file by hand to match your old "
+#~ "configuration."
+#~ msgstr ""
+#~ "Por favor, aceite também o novo ficheiro de configuração. Depois da "
+#~ "actualização, pode encontrar o seu antigo ficheiro de configuração em \"/"
+#~ "etc/squid.conf.dpkg-old\". Terá depois que editar manualmente o novo "
+#~ "ficheiro de configuração para ficar de acordo com a configuração antiga."
+
+#~ msgid "Do you want to quit now?"
+#~ msgstr "Quer sair agora ?"
+
+#~ msgid "squid-cgi now uses config file for target ACL"
+#~ msgstr ""
+#~ "O squid-cgi agora utiliza o ficheiro de configuração para encontrar ACL"
+
+#~ msgid ""
+#~ "squid-cgi now checks a configuration file before connecting to the target "
+#~ "host. Only allowed target will be contacted. Please add hosts you want to "
+#~ "access to the file /etc/squid/cachemgr.conf, one per line in the form"
+#~ msgstr ""
+#~ "O squid-cgi agora verifica o ficheiro de configuração antes de se ligar "
+#~ "um servidor. Apenas servidores permitidos serão contactados. Por favor, "
+#~ "acrescente ao ficheiro /etc/squid/cachemgr.conf os servidores a que quer "
+#~ "aceder, um por linha."
+
+#~ msgid "  hostname:port"
+#~ msgstr "nome_da_máquina:porta"
+
+#~ msgid ""
+#~ "Incompatible settings have been found in the existing squid.conf file; "
+#~ "they will prevent squid from starting or working correctly. However, this "
+#~ "setup can try to modify them to work again. Do you want to apply the "
+#~ "changes?"
+#~ msgstr ""
+#~ "Foram encontradas configurações incompatíveis no ficheiro existente squid."
+#~ "conf; Elas impedem o squid de iniciar ou funcionar correctamente. "
+#~ "Contudo, este setup pode tentar modificar as configurações para o squid "
+#~ "voltar a funcionar. Quer aplicar as alterações ?"
+
+#~ msgid ""
+#~ "The authenticate_program directive has been replaced with auth_param."
+#~ msgstr "O parâmetro authenticate_program foi substituído por auth_param."
+
+#~ msgid ""
+#~ "The authenticate_program directive that was present in squid <= 2.4 "
+#~ "doesn't exist anymore in squid 2.5 and up. All authentication directives "
+#~ "have been replaced with auth_param. Right now, your squid doesn't "
+#~ "authenticate users anymore so you probably want to fix this. The new "
+#~ "format is explained in the new 2.5 config file, of which you probably "
+#~ "have a copy in /usr/share/doc/squid/examples/squid.conf."
+#~ msgstr ""
+#~ "O parâmetro authenticate_program que estava presente no squid <=2.4, já "
+#~ "não exite no squid 2.5 e superiores. Todos os parâmetros de autenticação "
+#~ "foram substituídos por auth_param. Neste momento, o seu squid já não "
+#~ "autentica utilizadores, provavelmente deve querer corrirgir isto. O novo "
+#~ "formato é explicado no ficheiro de configuração da nova versão 2.5, do "
+#~ "qual já deve ter uma cópia em /usr/share/doc/squid/examples/squid.conf."
+
+#~ msgid "Warning: squid may crash when logfiles size is bigger than 2GB."
+#~ msgstr ""
+#~ "Aviso: o squid pode crashar quando o tamanho dos ficheiros de log for "
+#~ "superior a 2GB."
+
+#~ msgid ""
+#~ "Squid may crash if any of the logfiles grows bigger than 2GB. Please "
+#~ "configure /etc/logrotate.d/squid accordingly to your site's traffic."
+#~ msgstr ""
+#~ "O Squid pode crashar se algum dos ficheiros de log crescer para além dos "
+#~ "2GB. Por favor, configure o /etc/logrotate.d/squid de acordo com o "
+#~ "tráfego do seu site."
