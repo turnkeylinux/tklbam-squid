@@ -1,0 +1,42 @@
+#!/usr/bin/python
+"""
+Arguments:
+
+    <cachesize>         Size of squid cache
+
+Environment variables:
+
+    TKLBAM_SQUID_CACHE_DIR      location of cache dir (default: %s)
+    TKLBAM_SQUID_USER           user under which we execute squid (default: %s)
+
+"""
+import os
+import sys
+
+TKLBAM_SQUID_CACHE_DIR = "/var/spool/tklbam-squid"
+TKLBAM_SQUID_USER = "proxy"
+
+def usage(e=None):
+    if e:   
+        print >> sys.stderr, "error: " + str(e)
+    print >> sys.stderr, "Syntax: %s <cache_size>" % sys.argv[0]
+    print >> sys.stderr, __doc__.strip() % (TKLBAM_SQUID_CACHE_DIR, TKLBAM_SQUID_USER)
+    sys.exit(1)
+
+def main():
+    args = sys.argv[1:]
+    if len(args) != 1:
+        usage("incorrect number of arguments")
+
+    try:
+        cache_size = int(args[0])
+    except ValueError:
+        usage("bad cache_size '%s'" % args[1])
+
+    cache_dir = os.environ.get('TKLBAM_SQUID_CACHE_DIR', TKLBAM_SQUID_CACHE_DIR)
+    user = os.environ.get('TKLBAM_SQUID_USER', TKLBAM_SQUID_USER)
+
+    print `cache_size, cache_dir, user`
+
+if __name__ == "__main__":
+    main()
