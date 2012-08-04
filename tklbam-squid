@@ -1,5 +1,6 @@
 #!/usr/bin/python
 """
+Runs a squid instance to cache TKLBAM's duplicity archives
 Arguments:
 
     <cachesize>         Size of squid cache (in megabytes)
@@ -18,6 +19,8 @@ import string
 
 from executil import system
 from temp import TempFile
+
+import pwd
 
 TKLBAM_SQUID_BIN = "/usr/lib/tklbam/deps"
 TKLBAM_SQUID_CACHE_DIR = "/var/spool/tklbam-squid"
@@ -64,6 +67,16 @@ def usage(e=None):
     print >> sys.stderr, __doc__.strip() % (TKLBAM_SQUID_CACHE_DIR, TKLBAM_SQUID_USER, TKLBAM_SQUID_BIN)
     sys.exit(1)
 
+def runas(user, command):
+    if pwd.getpwnam(user).pw_uid == os.getuid():
+        system(command)
+    else:
+        system("su %s -c" % user, command)
+
+def fatal(e):
+    print >> sys.stderr, "error: " + str(e)
+    sys.exit(1)
+
 def main():
     args = sys.argv[1:]
     if len(args) != 2:
@@ -80,7 +93,14 @@ def main():
         usage("bad cache_size '%s'" % args[1])
 
     cache_dir = os.environ.get('TKLBAM_SQUID_CACHE_DIR', TKLBAM_SQUID_CACHE_DIR)
+    if not os.path.isdir(cache_dir):
+        usage("'%s' - no such directory" % cache_dir)
+
     user = os.environ.get('TKLBAM_SQUID_USER', TKLBAM_SQUID_USER)
+    try:
+        pwd.getpwnam(user)
+    except KeyError:
+        fatal("no such user '%s'" % user)
     
     conf_tpl = string.Template(TKLBAM_CONF_TPL)
     conf = conf_tpl.substitute(PORT=port, 
@@ -92,8 +112,8 @@ def main():
     file(conf_tmp.path, "w").write(conf)
     os.chmod(conf_tmp.path, 0644)
 
-    system("su %s -c" % user, "%s -f %s -z" % (TKLBAM_SQUID_BIN, conf_tmp.path))
-    system("su %s -c" % user, "%s -f %s -N -d 1" % (TKLBAM_SQUID_BIN, conf_tmp.path))
+    runas(user, "%s -f %s -z" % (TKLBAM_SQUID_BIN, conf_tmp.path))
+    runas(user, "%s -f %s -N -d 1" % (TKLBAM_SQUID_BIN, conf_tmp.path))
 
 if __name__ == "__main__":
     main()
