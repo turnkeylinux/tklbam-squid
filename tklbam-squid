@@ -4,7 +4,12 @@ Runs a squid instance to cache TKLBAM's duplicity archives
 Arguments:
 
     <http_port>         [hostname:]port (e.g., 3128, 127.0.0.1:33128)
-    <cachesize>         Size of squid cache (in megabytes)
+    <cachesize>         Size of squid cache (can be absolute or relative size)
+        
+                        1000MB - 1000 MBs
+                        2GB - 2000 MBs
+
+                        50% - 50% of free space in spool location
 
 Environment variables:
 
@@ -17,6 +22,9 @@ Environment variables:
 import os
 import sys
 import string
+import statvfs
+
+import re
 
 from executil import system
 from temp import TempFile
@@ -61,12 +69,52 @@ netdb_filename none
 class Error(Exception):
     pass
 
-def usage(e=None):
-    if e:   
-        print >> sys.stderr, "error: " + str(e)
-    print >> sys.stderr, "Syntax: %s <http_port> <cache_size>" % sys.argv[0]
-    print >> sys.stderr, __doc__.strip() % (TKLBAM_SQUID_CACHE_DIR, TKLBAM_SQUID_USER, TKLBAM_SQUID_BIN)
-    sys.exit(1)
+def get_freespace(path):
+    stats = os.statvfs(path)
+    freespace = stats[statvfs.F_BFREE] * stats[statvfs.F_BSIZE]
+    return freespace
+
+def parse_cache_size(sizestr, cache_dir):
+    """Parse cache size string and return the size of the cache in megabytes.
+
+    Valid format examples:
+    
+    100     100 megabytes
+
+    50%     50% of free space on cache_dir filesystem
+
+    100M    100 megabytes
+    100MB   100 megabytes
+    100mb   100 megabytes
+
+    10G     10 gigabytes
+    10GB    10 gigabytes
+    10gb    10 gigabytes
+    """
+
+    try:
+        return int(sizestr)
+    except ValueError:
+        pass
+    
+    m = re.match(r'^(.*)MB?$', sizestr, re.IGNORECASE)
+    if m:
+        size = int(m.group(1))
+        return size + 16 # why 16 extra MB? make room for the cache structure overhead
+
+    m = re.match(r'^(.*)GB?$', sizestr, re.IGNORECASE)
+    if m:
+        size = int(m.group(1))
+        return size * 1024
+    m = re.match(r'^(.*)%$', sizestr, re.IGNORECASE)
+    if m:
+        percent = int(m.group(1))
+        if percent > 100 or percent < 0:
+            raise Error("bad percent %d%% - should be between 0 and 100" % percent)
+
+        return int((get_freespace(cache_dir) * percent / 100.0) / (1024 * 1024))
+
+    raise Error("illegal cache_size value '%s'" % sizestr)
 
 def user_exists(user):
     try:
@@ -87,6 +135,13 @@ def runas(user, command):
     else:
         system(command)
 
+def usage(e=None):
+    if e:   
+        print >> sys.stderr, "error: " + str(e)
+    print >> sys.stderr, "Syntax: %s <http_port> <cache_size>" % sys.argv[0]
+    print >> sys.stderr, __doc__.strip() % (TKLBAM_SQUID_CACHE_DIR, TKLBAM_SQUID_USER, TKLBAM_SQUID_BIN)
+    sys.exit(1)
+
 def fatal(e):
     print >> sys.stderr, "error: " + str(e)
     sys.exit(1)
@@ -96,17 +151,6 @@ def main():
     if len(args) != 2:
         usage("incorrect number of arguments")
 
-    http_port = args[0]
-
-    try:
-        cache_size = int(args[1])
-    except ValueError:
-        usage("bad cache_size '%s'" % args[1])
-
-    user = os.environ.get('TKLBAM_SQUID_USER', TKLBAM_SQUID_USER)
-    if not user_exists(user):
-        fatal("no such user '%s'" % user)
-    
     cache_dir = os.environ.get('TKLBAM_SQUID_CACHE_DIR', TKLBAM_SQUID_CACHE_DIR)
     if os.path.exists(cache_dir):
         if not os.path.isdir(cache_dir):
@@ -118,6 +162,16 @@ def main():
             pw = pwd.getpwnam(user)
             os.chown(cache_dir, pw.pw_uid, pw.pw_gid)
 
+    http_port = args[0]
+    try:
+        cache_size = parse_cache_size(args[1], cache_dir)
+    except ValueError:
+        usage("bad cache_size '%s'" % args[1])
+
+    user = os.environ.get('TKLBAM_SQUID_USER', TKLBAM_SQUID_USER)
+    if not user_exists(user):
+        fatal("no such user '%s'" % user)
+    
     conf_tpl = string.Template(TKLBAM_CONF_TPL)
 
     if cache_size > 2000 and (not sys.maxsize > 2 ** 32):
@@ -128,7 +182,7 @@ def main():
 
     conf = conf_tpl.substitute(HTTP_PORT=http_port, 
                                CACHE_DIR=cache_dir, 
-                               CACHE_SIZE=cache_size + 16, 
+                               CACHE_SIZE=cache_size, 
                                MAXIMUM_OBJECT_SIZE=maximum_object_size) 
 
     conf_tmp = TempFile("tklbam-squid-conf-")
