@@ -101,17 +101,25 @@ def main():
         fatal("no such user '%s'" % user)
     
     conf_tpl = string.Template(TKLBAM_CONF_TPL)
+
+    if cache_size > 2000 and (not sys.maxsize > 2 ** 32):
+        print >> sys.stderr, "Detected 32-bit system, limiting maximum_object_size to 2000 MB"
+        maximum_object_size = 2000
+    else:
+        maximum_object_size = cache_size
+
     conf = conf_tpl.substitute(HTTP_PORT=http_port, 
                                CACHE_DIR=cache_dir, 
                                CACHE_SIZE=cache_size + 16, 
-                               MAXIMUM_OBJECT_SIZE=cache_size)
+                               MAXIMUM_OBJECT_SIZE=maximum_object_size) 
 
     conf_tmp = TempFile("tklbam-squid-conf-")
     file(conf_tmp.path, "w").write(conf)
     os.chmod(conf_tmp.path, 0644)
 
-    runas(user, "%s -f %s -z" % (TKLBAM_SQUID_BIN, conf_tmp.path))
-    runas(user, "%s -f %s -N -d 1" % (TKLBAM_SQUID_BIN, conf_tmp.path))
+    squid_bin = os.environ.get('TKLBAM_SQUID_BIN', TKLBAM_SQUID_BIN)
+    runas(user, "%s -f %s -z" % (squid_bin, conf_tmp.path))
+    runas(user, "%s -f %s -N -d 1" % (squid_bin, conf_tmp.path))
 
 if __name__ == "__main__":
     main()
