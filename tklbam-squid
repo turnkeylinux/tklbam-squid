@@ -151,6 +151,10 @@ def main():
     if len(args) != 2:
         usage("incorrect number of arguments")
 
+    user = os.environ.get('TKLBAM_SQUID_USER', TKLBAM_SQUID_USER)
+    if not user_exists(user):
+        fatal("no such user '%s'" % user)
+    
     cache_dir = os.environ.get('TKLBAM_SQUID_CACHE_DIR', TKLBAM_SQUID_CACHE_DIR)
     if os.path.exists(cache_dir):
         if not os.path.isdir(cache_dir):
@@ -168,10 +172,6 @@ def main():
     except ValueError:
         usage("bad cache_size '%s'" % args[1])
 
-    user = os.environ.get('TKLBAM_SQUID_USER', TKLBAM_SQUID_USER)
-    if not user_exists(user):
-        fatal("no such user '%s'" % user)
-    
     conf_tpl = string.Template(TKLBAM_CONF_TPL)
 
     if cache_size > 2000 and (not sys.maxsize > 2 ** 32):
