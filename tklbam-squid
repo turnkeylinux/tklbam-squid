@@ -3,6 +3,7 @@
 Runs a squid instance to cache TKLBAM's duplicity archives
 Arguments:
 
+    <http_port>         [hostname:]port (e.g., 3128, 127.0.0.1:33128)
     <cachesize>         Size of squid cache (in megabytes)
 
 Environment variables:
@@ -36,7 +37,7 @@ maximum_object_size $MAXIMUM_OBJECT_SIZE MB
 
 # static
 
-http_port 127.0.0.1:$PORT
+http_port $HTTP_PORT
 icp_port 0
 
 acl all src all
@@ -63,7 +64,7 @@ class Error(Exception):
 def usage(e=None):
     if e:   
         print >> sys.stderr, "error: " + str(e)
-    print >> sys.stderr, "Syntax: %s <port> <cache_size>" % sys.argv[0]
+    print >> sys.stderr, "Syntax: %s <http_port> <cache_size>" % sys.argv[0]
     print >> sys.stderr, __doc__.strip() % (TKLBAM_SQUID_CACHE_DIR, TKLBAM_SQUID_USER, TKLBAM_SQUID_BIN)
     sys.exit(1)
 
@@ -82,10 +83,7 @@ def main():
     if len(args) != 2:
         usage("incorrect number of arguments")
 
-    try:
-        port = int(args[0])
-    except ValueError:
-        usage("bad port '%s'" % args[0])
+    http_port = args[0]
 
     try:
         cache_size = int(args[1])
@@ -103,7 +101,7 @@ def main():
         fatal("no such user '%s'" % user)
     
     conf_tpl = string.Template(TKLBAM_CONF_TPL)
-    conf = conf_tpl.substitute(PORT=port, 
+    conf = conf_tpl.substitute(HTTP_PORT=http_port, 
                                CACHE_DIR=cache_dir, 
                                CACHE_SIZE=cache_size + 16, 
                                MAXIMUM_OBJECT_SIZE=cache_size)
