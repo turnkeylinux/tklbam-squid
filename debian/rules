@@ -184,7 +184,7 @@ binary-arch:	build checkroot
 	install -m 750 -o proxy -g proxy -d $(tmp)/var/spool/$(package)
 
 	#
-	$(INSTALL_PROGRAM) tklbam-squid $(tmp)$(rootdir)/usr/sbin
+	install -m 755 tklbam-squid $(tmp)$(rootdir)/usr/sbin
 	$(INSTALL_PROGRAM) src/squid $(tmp)$(rootdir)/usr/sbin
 	$(INSTALL_PROGRAM) src/unlinkd src/fs/diskd-daemon src/logfile-daemon $(tmp)$(rootdir)/usr/lib/squid
 	$(INSTALL_PROGRAM) helpers/external_acl/ip_user/ip_user_check \
