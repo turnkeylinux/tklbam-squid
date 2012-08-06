@@ -11,7 +11,7 @@ Architecture: any
 Section: web
 Priority: optional
 Pre-Depends: debconf (>= 1.2.9) | debconf-2.0
-Depends: ${shlibs:Depends}, netbase, adduser, tklbam-squid-common (>= ${source:Version}), lsb-base (>= 3.2-14)
+Depends: ${shlibs:Depends}, netbase, adduser, tklbam-squid-common (>= ${source:Version}), lsb-base (>= 3.2-14), turnkey-pylib
 Description: TKLBAM embedded Internet object cache (WWW proxy cache)
  This package provides the Squid Internet Object Cache developed by
  the National Laboratory for Applied Networking Research (NLANR) and
