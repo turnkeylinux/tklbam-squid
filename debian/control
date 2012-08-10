@@ -4,7 +4,7 @@ Priority: optional
 Maintainer: Luigi Gangitano <luigi@debian.org>
 Homepage: http://www.squid-cache.org/
 Standards-Version: 3.8.4
-Build-Depends: libldap2-dev, libpam0g-dev, sharutils, dpatch (>= 2.0.9), po-debconf, libdb-dev, libgssglue-dev, hardening-wrapper, autotools-dev
+Build-Depends: libldap2-dev, libpam0g-dev, sharutils, dpatch (>= 2.0.9), po-debconf, libdb-dev, libgssglue-dev, libkrb5-dev, hardening-wrapper, autotools-dev
 
 Package: tklbam-squid
 Architecture: any
