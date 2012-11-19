@@ -2527,7 +2527,7 @@ clientPackRangeHdr(const HttpReply * rep, const HttpHdrRangeSpec * spec, String 
     httpHeaderClean(&hdr);
 
     /* append <crlf> (we packed a header, not a reply) */
-    memBufPrintf(mb, crlf);
+    memBufPrintf(mb, "%s", crlf);
 }
 
 /*
