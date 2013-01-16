@@ -18,7 +18,7 @@ Description: TKLBAM embedded Internet object cache (WWW proxy cache)
  Internet volunteers.
 
 Package: tklbam-squid-common
-Architecture: all
+Architecture: any
 Section: web
 Priority: optional
 Description: TKLBAM embedded Internet object cache (WWW proxy cache) - common files
