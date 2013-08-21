@@ -191,7 +191,7 @@ def main():
 
     squid_bin = os.environ.get('TKLBAM_SQUID_BIN', TKLBAM_SQUID_BIN)
     runas(user, "%s -f %s -z" % (squid_bin, conf_tmp.path))
-    runas(user, "%s -f %s -N -d 1" % (squid_bin, conf_tmp.path))
+    runas(user, "%s -f %s -N -D -d 1" % (squid_bin, conf_tmp.path))
 
 if __name__ == "__main__":
     main()
