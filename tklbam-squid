@@ -161,10 +161,11 @@ def main():
             usage("'%s' - not a directory" % cache_dir)
     else:
         os.makedirs(cache_dir)
-        os.chmod(cache_dir, 0750)
-        if is_other_user(user):
-            pw = pwd.getpwnam(user)
-            os.chown(cache_dir, pw.pw_uid, pw.pw_gid)
+
+    os.chmod(cache_dir, 0750)
+    if is_other_user(user):
+        pw = pwd.getpwnam(user)
+        os.chown(cache_dir, pw.pw_uid, pw.pw_gid)
 
     http_port = args[0]
     try:
