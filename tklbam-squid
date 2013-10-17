@@ -129,12 +129,6 @@ def is_other_user(user):
     else:
         return True
 
-def runas(user, command):
-    if is_other_user(user):
-        system("su %s -c" % user, command)
-    else:
-        system(command)
-
 def usage(e=None):
     if e:   
         print >> sys.stderr, "error: " + str(e)
@@ -191,8 +185,8 @@ def main():
     os.chmod(conf_tmp.path, 0644)
 
     squid_bin = os.environ.get('TKLBAM_SQUID_BIN', TKLBAM_SQUID_BIN)
-    runas(user, "%s -f %s -z" % (squid_bin, conf_tmp.path))
-    runas(user, "%s -f %s -N -D -d 1" % (squid_bin, conf_tmp.path))
+    system("%s -f %s -z" % (squid_bin, conf_tmp.path))
+    system("%s -f %s -N -D -d 1" % (squid_bin, conf_tmp.path))
 
 if __name__ == "__main__":
     main()
