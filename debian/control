@@ -3,7 +3,7 @@ Section: web
 Priority: optional
 Maintainer: Luigi Gangitano <luigi@debian.org>
 Homepage: http://www.squid-cache.org/
-Standards-Version: 3.8.4
+Standards-Version: 4.0.0
 Build-Depends:
  autotools-dev,
  dpatch (>= 2.0.9),
