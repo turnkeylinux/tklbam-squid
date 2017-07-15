@@ -4,14 +4,31 @@ Priority: optional
 Maintainer: Luigi Gangitano <luigi@debian.org>
 Homepage: http://www.squid-cache.org/
 Standards-Version: 3.8.4
-Build-Depends: libldap2-dev, libpam0g-dev, sharutils, dpatch (>= 2.0.9), po-debconf, libdb-dev, libgssglue-dev, libkrb5-dev, hardening-wrapper, autotools-dev
+Build-Depends:
+ autotools-dev,
+ dpatch (>= 2.0.9),
+ hardening-wrapper,
+ libdb-dev,
+ libgssglue-dev,
+ libkrb5-dev,
+ libldap2-dev,
+ libpam0g-dev,
+ po-debconf,
+ sharutils,
 
 Package: tklbam-squid
 Architecture: any
 Section: web
 Priority: optional
-Pre-Depends: debconf (>= 1.2.9) | debconf-2.0
-Depends: ${shlibs:Depends}, netbase, adduser, tklbam-squid-common (>= ${source:Version}), lsb-base (>= 3.2-14), turnkey-pylib
+Pre-Depends:
+ debconf (>= 1.2.9) | debconf-2.0,
+Depends:
+ adduser,
+ lsb-base (>= 3.2-14),
+ netbase,
+ tklbam-squid-common (>= ${source:Version}),
+ turnkey-pylib,
+ ${shlibs:Depends},
 Description: TKLBAM embedded Internet object cache (WWW proxy cache)
  This package provides the Squid Internet Object Cache developed by
  the National Laboratory for Applied Networking Research (NLANR) and
