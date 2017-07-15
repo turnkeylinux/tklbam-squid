@@ -7,7 +7,6 @@ Standards-Version: 4.0.0
 Build-Depends:
  autotools-dev,
  dpatch (>= 2.0.9),
- hardening-wrapper,
  libdb-dev,
  libgssglue-dev,
  libkrb5-dev,

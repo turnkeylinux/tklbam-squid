@@ -9,7 +9,6 @@ rootdir = /usr/lib/tklbam/deps
 
 # Include dpatch stuff.
 include /usr/share/dpatch/dpatch.make
-export DEB_BUILD_HARDENING=1
 
 SHELL	= /bin/bash
 LC_ALL	= POSIX
