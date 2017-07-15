@@ -18,7 +18,6 @@ Build-Depends:
 
 Package: tklbam-squid
 Architecture: any
-Section: web
 Priority: optional
 Pre-Depends:
  debconf (>= 1.2.9) | debconf-2.0,
@@ -37,7 +36,6 @@ Description: TKLBAM embedded Internet object cache (WWW proxy cache)
 
 Package: tklbam-squid-common
 Architecture: any
-Section: web
 Priority: optional
 Depends:
  ${misc:Depends},
