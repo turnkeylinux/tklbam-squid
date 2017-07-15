@@ -1,0 +1,6 @@
+01-cf.data.debian.patch
+02-dfl-error-dir.patch
+03-no-append-domain-localhost.patch
+04-smb-auth.patch
+06-unlinkd.patch
+07-manpage.patch

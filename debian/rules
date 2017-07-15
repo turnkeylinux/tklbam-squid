@@ -7,9 +7,6 @@
 package = tklbam-squid
 rootdir = /usr/lib/tklbam/deps
 
-# Include dpatch stuff.
-include /usr/share/dpatch/dpatch.make
-
 SHELL	= /bin/bash
 LC_ALL	= POSIX
 

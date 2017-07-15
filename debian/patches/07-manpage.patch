@@ -1,0 +1,15 @@
+# 07-manpage.patch by Luigi Gangitano <luigi@debian.org>
+#Fixed wrong reference to /etc/squid/squid.conf
+
+diff -urNad squid~/doc/squid.8.in squid/doc/squid.8.in
+--- squid~/doc/squid.8.in	2007-04-09 12:23:41.000000000 +0200
++++ squid/doc/squid.8.in	2007-12-02 20:18:49.000000000 +0100
+@@ -120,7 +120,7 @@
+ allow access from any browser.
+ .RE
+ 
+-.I @DEFAULT_CONFIG_FILE@.default
++.I /usr/share/doc/squid/examples/squid.conf
+ .RS
+ Reference copy of the configuration file. Always kept up to date with
+ the version of Squid you are using. Use this to look up configuration
