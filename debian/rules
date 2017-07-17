@@ -202,7 +202,7 @@ binary-arch:	build checkroot
 
 	# overrides file
 	
-	dpkg-shlibdeps $(tmp)/usr/sbin/* $(tmp)$(libexecdir)/*
+	dpkg-shlibdeps $(tmp)$(libexecdir)/*
 	dpkg-gencontrol -isp -p$(package)
 	dpkg --build $(tmp) ..
 	rm -f debian/substvars
