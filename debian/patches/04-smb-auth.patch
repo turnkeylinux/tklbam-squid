@@ -1,10 +1,5 @@
-#! /bin/sh /usr/share/dpatch/dpatch-run
-## 04-smb-auth.dpatch by Luigi Gangitano <luigi@debian.org>
-##
-## All lines beginning with `## DP:' are a description of the patch.
-## DP: No description.
+# 04-smb-auth.patch by Luigi Gangitano <luigi@debian.org>
 
-@DPATCH@
 diff -urNad squid~/helpers/basic_auth/SMB/smb_auth.sh squid/helpers/basic_auth/SMB/smb_auth.sh
 --- squid~/helpers/basic_auth/SMB/smb_auth.sh	2007-04-09 12:23:24.000000000 +0200
 +++ squid/helpers/basic_auth/SMB/smb_auth.sh	2009-06-02 19:12:25.000000000 +0200

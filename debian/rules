@@ -7,10 +7,6 @@
 package = tklbam-squid
 rootdir = /usr/lib/tklbam/deps
 
-# Include dpatch stuff.
-include /usr/share/dpatch/dpatch.make
-export DEB_BUILD_HARDENING=1
-
 SHELL	= /bin/bash
 LC_ALL	= POSIX
 
@@ -206,7 +202,7 @@ binary-arch:	build checkroot
 
 	# overrides file
 	
-	dpkg-shlibdeps $(tmp)/usr/sbin/* $(tmp)$(libexecdir)/*
+	dpkg-shlibdeps $(tmp)$(libexecdir)/*
 	dpkg-gencontrol -isp -p$(package)
 	dpkg --build $(tmp) ..
 	rm -f debian/substvars
