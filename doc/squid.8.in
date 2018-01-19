@@ -122,7 +122,7 @@ to work.  For example, the default configuration does not
 allow access from any browser.
 .RE
 
-.I @DEFAULT_CONFIG_FILE@.default
+.I /usr/share/doc/squid/examples/squid.conf
 .RS
 Reference copy of the configuration file. Always kept up to date with
 the version of Squid you are using. Use this to look up configuration
