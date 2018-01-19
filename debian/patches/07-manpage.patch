@@ -1,10 +1,9 @@
 # 07-manpage.patch by Luigi Gangitano <luigi@debian.org>
 #Fixed wrong reference to /etc/squid/squid.conf
 
-diff -urNad squid~/doc/squid.8.in squid/doc/squid.8.in
---- squid~/doc/squid.8.in	2007-04-09 12:23:41.000000000 +0200
-+++ squid/doc/squid.8.in	2007-12-02 20:18:49.000000000 +0100
-@@ -120,7 +120,7 @@
+--- tklbam-squid.orig/doc/squid.8.in
++++ tklbam-squid/doc/squid.8.in
+@@ -122,7 +122,7 @@ to work.  For example, the default confi
  allow access from any browser.
  .RE
  

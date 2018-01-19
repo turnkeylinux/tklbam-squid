@@ -2,8 +2,8 @@
 #
 # Only run unlinkd for diskd and ufs storage methods
 
---- src/main.c	2002-07-14 19:20:49.000000000 +0200
-+++ src/main.c	2002-10-10 19:49:04.000000000 +0200
+--- a/src/main.c	2002-07-14 19:20:49.000000000 +0200
++++ b/src/main.c	2002-10-10 19:49:04.000000000 +0200
 @@ -326,6 +326,21 @@
      asnFreeMemory();
  }
