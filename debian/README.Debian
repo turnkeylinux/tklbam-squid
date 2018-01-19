@@ -28,8 +28,9 @@ changed in 2.4.2 (relative to 2.3.4-2 to 2.4.1-6). See README.ldap_auth
 
 **** Patches applied and build-time options ****
 
-A number of patches were applied using dpatch. A lot of them are Debian 
-specific, you will not find them outside of Debian (yet).
+A number of patches were applied using directly to the TurnKey tklbam-squid
+repo. A lot of them are Debian specific, you will not find them outside of
+Debian (yet).
 
 cf.data.debian.patch	Debian specific squid.conf patches
 dfl-error-dir.patch		Default error dir is under /usr/share/squid
