@@ -376,6 +376,21 @@ serverConnectionsClose(void)
     asnFreeMemory();
 }
 
+#if USE_UNLINKD
+static int
+needUnlinkd(void)
+{
+    int i;
+    int r = 0;
+    for (i = 0; i < Config.cacheSwap.n_configured; i++) {
+	if (strcmp(Config.cacheSwap.swapDirs[i].type, "ufs") == 0 ||
+	strcmp(Config.cacheSwap.swapDirs[i].type, "diskd") == 0)
+	r++;
+    }
+    return r;
+}
+#endif
+
 static void
 mainReconfigure(void)
 {
@@ -399,6 +414,9 @@ mainReconfigure(void)
     storeurlShutdown();
     locationRewriteShutdown();
     authenticateShutdown();
+#if USE_UNLINKD
+    unlinkdClose();
+#endif
     externalAclShutdown();
     refreshCheckShutdown();
     storeDirSync();		/* Flush pending I/O ops */
@@ -441,6 +459,9 @@ mainReconfigure(void)
 #endif
 #if DELAY_POOLS
     clientReassignDelaypools();
+#endif
+#if USE_UNLINKD
+    if (needUnlinkd()) unlinkdInit();
 #endif
     serverConnectionsOpen();
     neighbors_init();
@@ -614,7 +635,7 @@ mainInitialize(void)
 
     if (!configured_once) {
 #if USE_UNLINKD
-	unlinkdInit();
+	if (needUnlinkd()) unlinkdInit();
 #endif
 	urlInitialize();
 	cachemgrInit();
