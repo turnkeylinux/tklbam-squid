@@ -364,7 +364,7 @@ urlParse(method_t method, char *url)
 	debug(23, 1) ("urlParse: Illegal character in hostname '%s'\n", host);
 	return NULL;
     }
-    if (Config.appendDomain && !strchr(host, '.'))
+    if (Config.appendDomain && !strchr(host, '.')&& strcasecmp(host,"localhost") != 0)
 	strncat(host, Config.appendDomain, SQUIDHOSTNAMELEN - strlen(host) - 1);
     /* remove trailing dots from hostnames */
     while ((l = strlen(host)) > 0 && host[--l] == '.')

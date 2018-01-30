@@ -259,7 +259,7 @@
 
 /* were to look for errors if config path fails */
 #ifndef DEFAULT_SQUID_ERROR_DIR
-#define DEFAULT_SQUID_ERROR_DIR "/usr/local/squid/etc/errors"
+#define DEFAULT_SQUID_ERROR_DIR "/usr/share/squid/errors/English"
 #endif
 
 /* gb_type operations */

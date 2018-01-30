@@ -24,7 +24,7 @@ read NMBCAST
 read AUTHSHARE
 read AUTHFILE
 read SMBUSER
-read SMBPASS
+read -r SMBPASS
 
 # Find domain controller
 echo "Domain name: $DOMAINNAME"
@@ -47,7 +47,7 @@ else
   addropt=""
 fi
 echo "Query address options: $addropt"
-dcip=`$SAMBAPREFIX/bin/nmblookup $addropt "$PASSTHROUGH#1c" | awk '/^[0-9.]+ / { print $1 ; exit }'`
+dcip=`$SAMBAPREFIX/bin/nmblookup $addropt "$PASSTHROUGH#1c" | awk '/^[0-9.]+\..+ / { print $1 ; exit }'`
 echo "Domain controller IP address: $dcip"
 [ -n "$dcip" ] || exit 1
 
@@ -58,8 +58,10 @@ echo "Domain controller NETBIOS name: $dcname"
 [ -n "$dcname" ] || exit 1
 
 # Pass password to smbclient through environment. Not really safe.
-USER="$SMBUSER%$SMBPASS"
+USER="$SMBUSER"
+PASSWD="$SMBPASS"
 export USER
+export PASSWD
 
 # Read the contents of the file $AUTHFILE on the $AUTHSHARE share
 authfilebs=`echo "$AUTHFILE" | tr / '\\\\'`
