@@ -13,6 +13,10 @@ LC_ALL	= POSIX
 DEB_HOST_ARCH_CPU := $(shell dpkg-architecture -qDEB_HOST_ARCH_CPU 2>/dev/null)
 DEB_HOST_ARCH_OS := $(shell dpkg-architecture -qDEB_HOST_ARCH_OS 2>/dev/null)
 
+ifeq ($(DEB_HOST_ARCH_CPU),arm64)
+  DEB_HOST_ARCH_CPU := aarch64
+endif
+
 CFLAGS = -Wall -g
 INSTALL = install
 INSTALL_FILE    = $(INSTALL) -p    -o root -g root  -m  644
