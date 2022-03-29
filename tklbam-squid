@@ -1,4 +1,4 @@
-#!/usr/bin/python
+#!/usr/bin/python2
 """
 Runs a squid instance to cache TKLBAM's duplicity archives
 Arguments:
