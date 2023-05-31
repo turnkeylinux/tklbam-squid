@@ -12,6 +12,7 @@ Build-Depends:
  libkrb5-dev,
  libldap2-dev,
  libpam0g-dev,
+ linux-libc-dev,
  po-debconf,
  sharutils,
 
