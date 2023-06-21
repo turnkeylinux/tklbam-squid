@@ -3127,7 +3127,7 @@ struct arpreq {
 #if defined(_SQUID_NETBSD_) || defined(_SQUID_OPENBSD_)
 #undef free
 #endif
-#include <sys/sysctl.h>
+#include <linux/sysctl.h>
 #endif
 #ifdef _SQUID_LINUX_
 #include <net/if_arp.h>
